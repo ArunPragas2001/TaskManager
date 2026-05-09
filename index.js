@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
     res.send("Hello World!");
 });
 
-app.use("/tasks", taskRoutes);
+app.use("/api/tasks", taskRoutes);
 
 // Connect DB then start server
 connectDB()
