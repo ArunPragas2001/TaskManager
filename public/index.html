@@ -24,9 +24,9 @@
         <aside>
             <div class="card">
                 <div class="card-header">
-                    <h2>Create New Task</h2>
+                    <h2 id="form-title">Create New Task</h2>
                 </div>
-                <form id="task-form">
+                <form id="task-form" data-edit-id="">
                     <div class="form-group">
                         <label for="title">Task Title</label>
                         <input type="text" id="title" name="title" required placeholder="e.g., Finalize Q3 Report">
@@ -46,9 +46,12 @@
                         </select>
                     </div>
                     
-                    <button type="submit" class="btn-primary">
+                    <button type="submit" class="btn-primary" id="submit-btn">
                         <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                        Add Task
+                        <span id="submit-btn-text">Add Task</span>
+                    </button>
+                    <button type="button" class="btn-secondary" id="cancel-edit-btn" style="display: none; margin-top: 0.5rem; width: 100%; padding: 0.75rem 1rem; border-radius: 0.5rem; font-weight: 600; cursor: pointer; background: transparent; color: var(--text-secondary); border: 1px solid var(--border-color);">
+                        Cancel Edit
                     </button>
                 </form>
             </div>
