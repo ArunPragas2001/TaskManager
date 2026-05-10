@@ -51,28 +51,38 @@ function renderTasks() {
 
         // Determine status class
         let statusClass = 'pending';
-        if (task.status === 'In Progress') statusClass = 'inprogress';
-        if (task.status === 'Completed') statusClass = 'completed';
+        let statusText = '<span class="big-smiley">😐</span> Pending';
+        if (task.status === 'In Progress') {
+            statusClass = 'inprogress';
+            statusText = '<span class="big-smiley">😃</span> In Progress';
+        }
+        if (task.status === 'Completed') {
+            statusClass = 'completed';
+            statusText = '<span class="big-smiley">🤩</span> Completed';
+        }
 
         const card = document.createElement('div');
-        card.className = `task-card ${task.status === 'Completed' ? 'completed-task' : ''}`;
+        card.className = `task-row ${task.status === 'Completed' ? 'completed-task' : ''}`;
         
         card.innerHTML = `
-            <div class="task-content">
-                <h3 class="task-title">${escapeHTML(task.title)}</h3>
+            <div class="task-info">
+                <div class="task-title">${escapeHTML(task.title)}</div>
                 <div class="task-meta">
-                    <span class="status-badge ${statusClass}">${task.status}</span>
-                    <span class="deadline">📅 ${formattedDate}</span>
+                    <span class="status-badge ${statusClass}">${statusText}</span>
+                    <span class="meta-item">
+                        <svg class="meta-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        ${formattedDate}
+                    </span>
                 </div>
             </div>
             <div class="task-actions">
                 ${task.status !== 'Completed' ? `
-                    <button class="action-btn complete" onclick="updateTaskStatus('${task._id}', 'Completed')" title="Mark as Completed">
-                        ✓
+                    <button class="icon-btn complete" onclick="updateTaskStatus('${task._id}', 'Completed')" title="Mark as Completed">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     </button>
                 ` : ''}
-                <button class="action-btn delete" onclick="deleteTask('${task._id}')" title="Delete Task">
-                    ✕
+                <button class="icon-btn delete" onclick="deleteTask('${task._id}')" title="Delete Task">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                 </button>
             </div>
         `;
@@ -184,22 +194,34 @@ setInterval(checkDeadlines, 60000);
 // Toast Notification System
 function showToast(title, message, isError = false, isWarning = false) {
     const toast = document.createElement('div');
-    toast.className = 'toast';
-    if (isError) toast.style.borderLeftColor = 'var(--danger)';
-    else if (!isWarning) toast.style.borderLeftColor = 'var(--success)';
+    
+    let toastTypeClass = 'toast-success';
+    let iconSvg = '<svg class="toast-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+    
+    if (isError) {
+        toastTypeClass = 'toast-error';
+        iconSvg = '<svg class="toast-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+    } else if (isWarning) {
+        toastTypeClass = 'toast-warning';
+        iconSvg = '<svg class="toast-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>';
+    }
+    
+    toast.className = `toast ${toastTypeClass}`;
 
     toast.innerHTML = `
-        <button class="toast-close" onclick="this.parentElement.remove()">×</button>
-        <div class="toast-title">
-            ${isError ? '❌' : isWarning ? '⚠️' : '✅'} ${title}
+        <button class="toast-close" onclick="this.parentElement.remove()">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <div class="toast-header">
+            ${iconSvg}
+            ${title}
         </div>
         <div class="toast-message">${message}</div>
-        <div class="toast-progress" style="background: ${isError ? 'var(--danger)' : isWarning ? 'var(--warning)' : 'var(--success)'}"></div>
+        <div class="toast-progress"></div>
     `;
 
     toastContainer.appendChild(toast);
 
-    // Auto remove after 5 seconds
     setTimeout(() => {
         toast.classList.add('hiding');
         setTimeout(() => toast.remove(), 300);

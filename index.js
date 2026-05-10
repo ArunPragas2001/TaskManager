@@ -15,7 +15,16 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, "public")));
+// Disable caching for development
+app.use((req, res, next) => {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+    next();
+});
+
+app.use(express.static(path.join(__dirname, "public"), {
+    etag: false,
+    maxAge: 0
+}));
 
 app.use("/api/tasks", taskRoutes);
 
