@@ -1,30 +1,30 @@
 :root {
-    --bg-canvas: #000000;
-    --bg-card: #0a0a0a;
-    --border-color: #3f3f46;
+    --bg-canvas: #0f172a;
+    --bg-card: #1e293b;
+    --border-color: #334155;
     
-    --text-primary: #f4f4f5;
-    --text-secondary: #a1a1aa;
-    --text-muted: #71717a;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
     
-    --accent-primary: #52525b; /* Silver Metallic */
-    --accent-primary-hover: #71717a;
+    --accent-primary: #6366f1;
+    --accent-primary-hover: #818cf8;
     
-    --success-bg: #18181b;
-    --success-text: #e4e4e7;
-    --success-border: #71717a;
+    --success-bg: #064e3b;
+    --success-text: #34d399;
+    --success-border: #047857;
     
-    --warning-bg: #18181b;
-    --warning-text: #e4e4e7;
-    --warning-border: #71717a;
+    --warning-bg: #713f12;
+    --warning-text: #fbbf24;
+    --warning-border: #a16207;
     
-    --danger-bg: #18181b;
-    --danger-text: #e4e4e7;
-    --danger-border: #71717a;
+    --danger-bg: #7f1d1d;
+    --danger-text: #f87171;
+    --danger-border: #b91c1c;
 
-    --inprogress-bg: #18181b;
-    --inprogress-text: #e4e4e7;
-    --inprogress-border: #71717a;
+    --inprogress-bg: #0c4a6e;
+    --inprogress-text: #38bdf8;
+    --inprogress-border: #0369a1;
     
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
@@ -282,8 +282,6 @@ input:focus, select:focus {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: linear-gradient(145deg, #18181b, #09090b);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
 .big-smiley {
