@@ -108,7 +108,7 @@ Step 4: Create Environment Variables
 
 Create a .env file in the root directory and add the following:
 
-PORT=3000 MONGO_URL=your_mongodb_connection_string
+PORT=8000 MONGO_URL=your_mongodb_connection_string
 
 ------------------------------------------------------------------------
 
@@ -118,7 +118,7 @@ Start the server using:
 
 npm start
 
-The server will run on: http://localhost:3000
+The server will run on: http://localhost:8000
 
 ------------------------------------------------------------------------
 
