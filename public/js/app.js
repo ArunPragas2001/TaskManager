@@ -47,11 +47,10 @@ function renderTasks() {
 
     filteredTasks.forEach(task => {
         const deadlineDate = new Date(task.deadline);
-        const day = deadlineDate.getDate();
-        const month = deadlineDate.getMonth() + 1;
+        const day = String(deadlineDate.getDate()).padStart(2, '0');
+        const month = String(deadlineDate.getMonth() + 1).padStart(2, '0');
         const year = deadlineDate.getFullYear();
-        const time = deadlineDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-        const formattedDate = `${day}/${month}/${year} ${time}`;
+        const formattedDate = `${day}/${month}/${year}`;
 
         // Determine status class
         let statusClass = 'pending';
