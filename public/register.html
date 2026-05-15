@@ -3,53 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Taskium</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Initialize | Spatial OS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
-    <nav class="navbar">
-        <div class="brand">
-            <svg class="brand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
-            </svg>
+<body class="auth-wrapper">
+    <div class="spatial-panel auth-panel">
+        <div class="brand" style="justify-content: center; margin-bottom: 3rem;">
+            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--highlight)); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                <svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            </div>
             Taskium
         </div>
-    </nav>
-
-    <main class="auth-container">
-        <div class="auth-card">
-            <div class="auth-header">
-                <h1>Create Account</h1>
-                <p>Start managing tasks efficiently</p>
+        <h2 style="font-size: 2.25rem; font-weight: 800; margin-bottom: 1rem; letter-spacing: -0.05em;">GENERATE_IDENTITY</h2>
+        <p style="color: var(--text-dim); margin-bottom: 3rem; font-size: 0.9rem;">Join the enterprise spatial ecosystem.</p>
+        
+        <form id="register-form">
+            <div style="margin-bottom: 1.25rem; text-align: left;">
+                <input type="text" id="name" class="spatial-input" required placeholder="Full Name">
             </div>
-            <form id="register-form">
-                <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" name="name" required placeholder="John Doe">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required placeholder="name@company.com">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required placeholder="••••••••" minlength="6">
-                </div>
-                <button type="submit" class="btn-primary">
-                    Create Account
-                </button>
-            </form>
-            <div class="auth-footer">
-                Already have an account? <a href="/login.html" class="auth-link">Login</a>
+            <div style="margin-bottom: 1.25rem; text-align: left;">
+                <input type="email" id="email" class="spatial-input" required placeholder="Authentication ID">
             </div>
+            <div style="margin-bottom: 2.5rem; text-align: left;">
+                <input type="password" id="password" class="spatial-input" required placeholder="Security Key">
+            </div>
+            <button type="submit" class="btn-neon" style="width: 100%; padding: 1.25rem; font-size: 1rem; letter-spacing: 0.1em;">INIT_WORKSPACE</button>
+        </form>
+        
+        <div style="margin-top: 3rem; font-size: 0.85rem; color: var(--text-dim);">
+            SYSTEM_EXISTS? <a href="/login.html" style="color: var(--highlight); text-decoration: none; font-weight: 700;">AUTHORIZE_ENTRY</a>
         </div>
-    </main>
+    </div>
 
-    <div id="toast-container" class="toast-container"></div>
-
+    <div id="toast-container"></div>
     <script src="/js/auth.js"></script>
 </body>
 </html>
