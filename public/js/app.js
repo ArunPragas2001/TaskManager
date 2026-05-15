@@ -16,6 +16,7 @@ const cancelEditBtn = document.getElementById('cancel-edit-btn');
 async function fetchTasks() {
     try {
         const response = await fetch(API_URL);
+        
         if (!response.ok) throw new Error('Failed to fetch tasks');
         tasks = await response.json();
         renderTasks();
@@ -131,13 +132,17 @@ taskForm.addEventListener('submit', async (e) => {
         if (editId) {
             response = await fetch(`${API_URL}/${editId}`, {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({ title, deadline, status })
             });
         } else {
             response = await fetch(`${API_URL}/create`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify({ title, deadline, status })
             });
         }
@@ -304,6 +309,12 @@ function escapeHTML(str) {
 
 // Initial Load
 fetchTasks();
+
+function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = '/login.html';
+}
 
 // Update countdown UI every minute
 setInterval(renderTasks, 60000);

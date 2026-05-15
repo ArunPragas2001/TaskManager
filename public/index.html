@@ -24,7 +24,27 @@
             </svg>
             TaskManager Pro
         </div>
+        <div class="user-info" id="user-info-nav" style="display: none;">
+            <span class="user-name" id="nav-user-name"></span>
+            <button class="btn-logout" onclick="logout()">Logout</button>
+        </div>
     </nav>
+
+    <script>
+        // Check for user info from local storage (optional display)
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                document.getElementById('nav-user-name').textContent = user.name;
+                document.getElementById('user-info-nav').style.display = 'flex';
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = '/login.html';
+        }
+    </script>
 
     <main class="app-container">
         <!-- Left Column: Form -->

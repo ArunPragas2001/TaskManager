@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import connectDB from "./config/config.js";
 import taskRoutes from "./routes/taskRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, "public"), {
 }));
 
 app.use("/api/tasks", taskRoutes);
+app.use("/api/auth", authRoutes);
 
 // Connect DB then start server
 connectDB()
