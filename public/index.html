@@ -35,13 +35,16 @@
     </nav>
 
     <script>
-        // Check for user info from local storage (optional display)
+        // Check for user info from local storage
         document.addEventListener('DOMContentLoaded', () => {
             const user = JSON.parse(localStorage.getItem('user'));
             if (user) {
                 document.getElementById('nav-user-name').textContent = user.name;
                 document.getElementById('user-info-nav').style.display = 'flex';
                 document.getElementById('auth-links-nav').style.display = 'none';
+            } else {
+                // If no user is logged in, redirect to login page
+                window.location.href = '/login.html';
             }
         });
 
