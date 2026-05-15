@@ -552,3 +552,8 @@ input:focus, select:focus {
 .btn-logout:hover {
     background: var(--danger-bg);
 }
+
+.auth-links {
+    display: flex;
+    align-items: center;
+}

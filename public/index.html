@@ -28,6 +28,10 @@
             <span class="user-name" id="nav-user-name"></span>
             <button class="btn-logout" onclick="logout()">Logout</button>
         </div>
+        <div class="auth-links" id="auth-links-nav">
+            <a href="/login.html" class="auth-link" style="margin-right: 1rem;">Login</a>
+            <a href="/register.html" class="btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem; width: auto;">Register</a>
+        </div>
     </nav>
 
     <script>
@@ -37,6 +41,7 @@
             if (user) {
                 document.getElementById('nav-user-name').textContent = user.name;
                 document.getElementById('user-info-nav').style.display = 'flex';
+                document.getElementById('auth-links-nav').style.display = 'none';
             }
         });
 
