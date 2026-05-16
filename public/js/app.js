@@ -86,7 +86,7 @@ function renderTasks() {
         const isOverdue = diffMs < 0 && task.status !== 'Completed';
 
         const card = document.createElement('div');
-        card.className = 'task-card';
+        card.className = `task-card ${isUrgent || isOverdue ? 'urgent' : ''}`;
         card.innerHTML = `
             <div class="task-card-title">${escapeHTML(task.title)}</div>
             <div class="task-card-meta">
@@ -222,7 +222,7 @@ function checkDeadlines() {
         if (timeDiff > 0 && timeDiff <= (24 * 60 * 60 * 1000)) {
             if (!notifiedTaskIds.has(task._id)) {
                 const hoursLeft = Math.floor(timeDiff / (1000 * 60 * 60));
-                showToast('Deadline Approaching', `"${task.title}" is due in ${hoursLeft}h!`, false, true);
+                showToast('Urgent Reminder', `Attention! "${task.title}" is due in ${hoursLeft}h. Please prioritize this task.`, true);
                 notifiedTaskIds.add(task._id);
             }
         }
