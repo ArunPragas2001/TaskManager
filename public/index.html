@@ -4,122 +4,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taskium</title>
+    <title>Taskium | Task Manager</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
-    <nav class="navbar">
-        <div class="brand">
-            <svg class="brand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4">
-                </path>
-            </svg>
-            Taskium
-        </div>
-        <div class="user-info" id="user-info-nav" style="display: none;">
-            <span class="user-name" id="nav-user-name"></span>
-            <button class="btn-logout" onclick="logout()">Logout</button>
-        </div>
-        <div class="auth-links" id="auth-links-nav">
-            <a href="/login.html" class="auth-link" style="margin-right: 1rem;">Login</a>
-            <a href="/register.html" class="btn-primary"
-                style="padding: 0.5rem 1rem; font-size: 0.85rem; width: auto;">Register</a>
-        </div>
-    </nav>
+    <div class="app-wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+                <span>Taskium</span>
+            </div>
 
-    <script>
-        // Check for user info from local storage
-        document.addEventListener('DOMContentLoaded', () => {
-            const user = JSON.parse(localStorage.getItem('user'));
-            if (user) {
-                document.getElementById('nav-user-name').textContent = `Hello, ${user.name}`;
-                document.getElementById('user-info-nav').style.display = 'flex';
-                document.getElementById('auth-links-nav').style.display = 'none';
-            } else {
-                // If no user is logged in, redirect to login page
-                window.location.href = '/login.html';
-            }
-        });
+            <nav class="nav-links">
+                <a href="#" class="nav-item active">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <span>Tasks</span>
+                </a>
+            </nav>
 
-        function logout() {
-            localStorage.removeItem('user');
-            window.location.href = '/login.html';
-        }
-    </script>
-
-    <main class="app-container">
-        <!-- Left Column: Form -->
-        <aside>
-            <div class="card">
-                <div class="card-header">
-                    <h2 id="form-title">Create New Task</h2>
-                </div>
-                <form id="task-form" data-edit-id="">
-                    <div class="form-group">
-                        <label for="title">Task Title</label>
-                        <input type="text" id="title" name="title" required placeholder="e.g., Finalize Q3 Report">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="deadline">Deadline</label>
-                        <input type="datetime-local" id="deadline" name="deadline" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="status">Status</label>
-                        <select id="status" name="status" required>
-                            <option value="Pending">Pending</option>
-                            <option value="In Progress">In Progress</option>
-                            <option value="Completed">Completed</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn-primary" id="submit-btn">
-                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4">
-                            </path>
-                        </svg>
-                        <span id="submit-btn-text">Add Task</span>
-                    </button>
-                    <button type="button" class="btn-secondary" id="cancel-edit-btn"
-                        style="display: none; margin-top: 0.5rem; width: 100%; padding: 0.75rem 1rem; border-radius: 0.5rem; font-weight: 600; cursor: pointer; background: transparent; color: var(--text-secondary); border: 1px solid var(--border-color);">
-                        Cancel Edit
-                    </button>
-                </form>
+            <div style="margin-top: auto;">
+                <button class="nav-item" onclick="logout()" style="width: 100%; background: none; border: none; cursor: pointer; color: var(--error);">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    <span>Logout</span>
+                </button>
             </div>
         </aside>
 
-        <!-- Right Column: Task List -->
-        <section>
-            <div class="card">
-                <div class="card-header list-header">
-                    <h2>Your Tasks</h2>
-                    <div class="filter-group">
-                        <button class="filter-btn active" data-filter="all">All</button>
-                        <button class="filter-btn" data-filter="Pending">Pending</button>
-                        <button class="filter-btn" data-filter="Completed">Completed</button>
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <div class="header-title">
+                    <h1>Your Tasks</h1>
+                    <p>Hello, <span id="nav-user-name">User</span>!</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-primary" onclick="openModal()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                        Add Task
+                    </button>
+                </div>
+            </header>
+
+            <!-- KPI Cards -->
+            <section class="kpi-grid">
+                <div class="kpi-card">
+                    <span class="kpi-label">Total Tasks</span>
+                    <span class="kpi-value" id="stat-total">0</span>
+                    <div class="kpi-trend trend-up">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                        <span>Active</span>
                     </div>
                 </div>
-
-                <div id="task-container" class="task-container">
-                    <div class="empty-state">Loading tasks...</div>
+                <div class="kpi-card">
+                    <span class="kpi-label">Completion Rate</span>
+                    <span class="kpi-value" id="stat-rate">0%</span>
+                    <div class="kpi-trend trend-up">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                        <span>Tasks Done</span>
+                    </div>
                 </div>
-            </div>
-        </section>
-    </main>
+                <div class="kpi-card">
+                    <span class="kpi-label">In Progress</span>
+                    <span class="kpi-value" id="stat-inprogress" style="color: var(--primary);">0</span>
+                    <div class="kpi-trend">
+                        <span>Current</span>
+                    </div>
+                </div>
+            </section>
 
-    <!-- Toast Notification Container -->
+            <!-- Kanban Board -->
+            <section class="kanban-board">
+                <!-- Pending -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <div class="column-title">
+                            <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted);"></span>
+                            Pending
+                        </div>
+                    </div>
+                    <div class="task-list" id="list-pending"></div>
+                </div>
+
+                <!-- In Progress -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <div class="column-title">
+                            <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--primary);"></span>
+                            In Progress
+                        </div>
+                    </div>
+                    <div class="task-list" id="list-inprogress"></div>
+                </div>
+
+                <!-- Completed -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <div class="column-title">
+                            <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--success);"></span>
+                            Completed
+                        </div>
+                    </div>
+                    <div class="task-list" id="list-completed"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="task-modal">
+        <div class="modal-content">
+            <h2 id="form-title" style="margin-bottom: 2rem;">Add New Task</h2>
+            <form id="task-form" data-edit-id="">
+                <div class="form-group">
+                    <label>Task Title</label>
+                    <input type="text" id="title" name="title" required placeholder="e.g., Design System Update">
+                </div>
+                <div class="form-group">
+                    <label>Deadline</label>
+                    <input type="datetime-local" id="deadline" name="deadline" required>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="status" name="status" required>
+                        <option value="Pending">Pending</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 2.5rem;">
+                    <button type="button" class="btn-icon" style="flex: 1;" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn-primary" style="flex: 2;" id="submit-btn">
+                        <span id="submit-btn-text">Add Task</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div id="toast-container" class="toast-container"></div>
-
     <script src="/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) document.getElementById('nav-user-name').textContent = user.name;
+            else window.location.href = '/login.html';
+        });
+        function openModal() { document.getElementById('task-modal').style.display = 'flex'; }
+        function closeModal() { 
+            document.getElementById('task-modal').style.display = 'none';
+            resetForm();
+        }
+        function logout() { localStorage.removeItem('user'); window.location.href = '/login.html'; }
+    </script>
 </body>
 
 </html>

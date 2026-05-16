@@ -24,7 +24,12 @@ if (registerForm) {
 
             if (!response.ok) throw new Error(data.message || 'Registration failed');
 
-            localStorage.setItem('user', JSON.stringify({ name: data.name, email: data.email }));
+            // Store user info and token
+            localStorage.setItem('user', JSON.stringify({ 
+                name: data.name, 
+                email: data.email,
+                token: data.token 
+            }));
             
             showToast('Success', 'Account created! Redirecting...', false);
             setTimeout(() => window.location.href = '/', 1500);
@@ -52,7 +57,12 @@ if (loginForm) {
 
             if (!response.ok) throw new Error(data.message || 'Login failed');
 
-            localStorage.setItem('user', JSON.stringify({ name: data.name, email: data.email }));
+            // Store user info and token
+            localStorage.setItem('user', JSON.stringify({ 
+                name: data.name, 
+                email: data.email,
+                token: data.token 
+            }));
             
             showToast('Success', 'Login successful! Redirecting...', false);
             setTimeout(() => window.location.href = '/', 1500);
@@ -62,27 +72,18 @@ if (loginForm) {
     });
 }
 
-// Toast Notification System (copied from app.js for consistency)
+// Toast Notification System
 function showToast(title, message, isError = false) {
     const toast = document.createElement('div');
-    let toastTypeClass = isError ? 'toast-error' : 'toast-success';
-    let iconSvg = isError 
-        ? '<svg class="toast-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>'
-        : '<svg class="toast-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
-    
-    toast.className = `toast ${toastTypeClass}`;
+    toast.className = `toast ${isError ? 'toast-error' : ''}`;
     toast.innerHTML = `
-        <button class="toast-close" onclick="this.parentElement.remove()">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        <div class="toast-header">${iconSvg} ${title}</div>
-        <div class="toast-message">${message}</div>
-        <div class="toast-progress"></div>
+        <div style="font-weight: 700; font-size: 0.9rem;">${title}</div>
+        <div style="font-size: 0.8rem; opacity: 0.8;">${message}</div>
     `;
-
     toastContainer.appendChild(toast);
     setTimeout(() => {
-        toast.classList.add('hiding');
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(20px)';
         setTimeout(() => toast.remove(), 300);
     }, 4000);
 }
