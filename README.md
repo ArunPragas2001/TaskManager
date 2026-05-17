@@ -84,11 +84,14 @@ Example Request: { “status”: “completed” }
 ------------------------------------------------------------------------
 
 4. Delete Task
-
-Method: DELETE
-Endpoint: /api/tasks/:id
+ Method: DELETE
+ Endpoint: /api/tasks/:id
 ------------------------------------------------------------------------
+
 5. Register user
+ Method: POST
+ Endpoint: /api/auth/register
+
 {
   "name": "John Doe",
   "email": "john@example.com",
