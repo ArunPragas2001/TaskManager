@@ -1,4 +1,4 @@
-Task Manager API
+TASKIUM(Task Manager API)
 ================
 
 Welcome to the Task Manager API! This is a simple backend application built with Node.js, Express.js, and MongoDB. It allows users to register, log in, and manage their daily tasks.
