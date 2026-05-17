@@ -1,169 +1,143 @@
-<div align="center">
-  
-# 🚀 Task Manager API
+Task Manager API
+================
 
-**A secure, robust RESTful API for managing personal tasks — built with Node.js, Express.js, and MongoDB.**
+Welcome to the Task Manager API! This is a simple backend application built with Node.js, Express.js, and MongoDB. It allows users to register, log in, and manage their daily tasks.
 
-[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
-[![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-[![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)](https://jwt.io/)
+Features
+--------
 
-</div>
+- User Accounts: Register and log in securely.
+- Manage Tasks: Create, view, update, and delete your tasks.
+- Task Details: Set a title, deadline, priority (High, Medium, Low), and status (pending, completed).
 
----
+Technology Stack
+----------------
 
-## 📌 Overview
+- Node.js & Express.js (Backend server)
+- MongoDB (Database)
+- JSON Web Tokens (Security/Login)
 
-The **Task Manager API** is a backend application that enables users to manage their daily tasks efficiently through secure REST API endpoints. Users can register, authenticate, and perform full **CRUD** (Create, Read, Update, Delete) operations on their tasks. It features deadline tracking, priority levels, and status updates, all protected by secure JWT authentication.
+How to Set It Up
+----------------
 
----
+To run this project on your own computer, follow these simple steps:
 
-## ✨ Key Features
-
-- **🔐 Secure Authentication:** User registration and login utilizing JSON Web Tokens (JWT).
-- **📋 Comprehensive Task Management:** Create, view, update, and delete tasks.
-- **🏷️ Smart Categorization:** Assign priorities (`High`, `Medium`, `Low`) and track status (`pending`, `completed`).
-- **⏳ Deadline Tracking:** Set precise deadlines to never miss an important task.
-- **🛡️ Data Integrity:** Strict input validation and robust error handling.
-
----
-
-## 🛠️ Technology Stack
-
-- **Runtime:** Node.js
-- **Framework:** Express.js
-- **Database:** MongoDB
-- **ODM:** Mongoose
-- **Security:** JSON Web Token (JWT)
-
----
-
-## 🚀 Getting Started
-
-Follow these steps to set up the project locally.
-
-### Prerequisites
-
-Ensure you have the following installed on your local machine:
-- [Node.js](https://nodejs.org/)
-- [MongoDB](https://www.mongodb.com/) (Local instance or MongoDB Atlas cluster)
-
-### Installation
-
-1. **Clone the repository:**
+1. Download the code:
+   Clone the repository to your computer.
    ```bash
    git clone https://github.com/ArunPragas2001/TaskManager.git
    cd TaskManager
    ```
 
-2. **Install dependencies:**
+2. Install what you need:
+   Run this command to download the required packages.
    ```bash
    npm install
    ```
 
-3. **Configure environment variables:**
-   Create a `.env` file in the root directory and add the following:
+3. Set up the environment variables:
+   Create a new file named .env in the main folder. Add these lines to it (replace with your own details):
    ```env
    PORT=8000
    MONGO_URL=your_mongodb_connection_string
-   JWT_SECRET=your_super_secret_jwt_key
+   JWT_SECRET=your_secret_password
    ```
 
-4. **Start the server:**
+4. Start the app:
    ```bash
    npm start
    ```
-   > 🌐 **Server runs at:** `http://localhost:8000`
+   Your app will start running at http://localhost:8000.
 
----
+API Endpoints
+-------------
 
-## 🔗 API Reference
+Here are the links (endpoints) you can use to talk to the application.
 
-### 🔑 Authentication
 
-| Method | Endpoint | Description | Requires Auth |
-| :--- | :--- | :--- | :---: |
-| `POST` | `/api/auth/register` | Register a new user | ❌ |
-| `POST` | `/api/auth/login` | Login user & get JWT token | ❌ |
+1. USER AUTHENTICATION (NO LOGIN REQUIRED)
 
-**Login Example (Response):**
-```json
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5c..."
-}
-```
-> *Save this token! You will need to pass it in the `Authorization` header as a `Bearer Token` for all task-related endpoints.*
+- Register a new user
+  - Method: POST
+  - Link: /api/auth/register
+  - Example data to send:
+    ```json
+    {
+      "name": "John Doe",
+      "email": "john@example.com",
+      "password": "password123"
+    }
+    ```
 
-### 📝 Tasks
+- Log in
+  - Method: POST
+  - Link: /api/auth/login
+  - Example data to send:
+    ```json
+    {
+      "email": "john@example.com",
+      "password": "password123"
+    }
+    ```
+  - Important: When you log in, you will get a token. Save this token! You need it to manage your tasks.
 
-<<<<<<< HEAD
-| Method | Endpoint | Description | Requires Auth |
-| :--- | :--- | :--- | :---: |
-| `POST` | `/api/tasks/create` | Create a new task | ✅ |
-| `GET`  | `/api/tasks/` | Retrieve all tasks for the logged-in user | ✅ |
-| `PUT`  | `/api/tasks/:id` | Update a specific task | ✅ |
-| `DELETE`| `/api/tasks/:id` | Delete a specific task | ✅ |
 
-**Task Object Example:**
-```json
-{
-  "title": "Complete backend integration",
-  "deadline": "2026-05-20",
-  "status": "pending",
-  "priority": "High"
-}
-```
-=======
-4. Delete Task
- Method: DELETE
- Endpoint: /api/tasks/:id
-------------------------------------------------------------------------
+2. TASK MANAGEMENT (LOGIN REQUIRED)
 
-5. Register user
- Method: POST
- Endpoint: /api/auth/register
+Note: For all these links, you must provide your login token in the headers.
 
-{
-  "name": "John Doe",
-  "email": "john@example.com",
-  "password": "123456",
-  "createdAt": "2026-05-17T10:30:00.000Z"
-}
->>>>>>> 6bab906e21969833e988a697496cdbf56ec41527
+- Create a new task
+  - Method: POST
+  - Link: /api/tasks/create
+  - Example data to send:
+    ```json
+    {
+      "title": "Do homework",
+      "deadline": "2026-05-20",
+      "status": "pending",
+      "priority": "High"
+    }
+    ```
 
----
+- View all your tasks
+  - Method: GET
+  - Link: /api/tasks/
+  - Example data to send:
+    ```text
+    No data needed! Just send the GET request and it will return a list of all your tasks.
+    ```
 
-## 🧪 Testing with Postman
+- Update a task
+  - Method: PUT
+  - Link: /api/tasks/:id (Replace :id with your task's ID)
+  - Example data to send (only include what you want to change):
+    ```json
+    {
+      "title": "Do homework quickly",
+      "status": "completed",
+      "priority": "Medium"
+    }
+    ```
 
-To successfully test the API, follow this workflow:
+- Delete a task
+  - Method: DELETE
+  - Link: /api/tasks/:id (Replace :id with your task's ID)
+  - Example data to send:
+    ```text
+    No data needed! Just send the DELETE request to remove the task.
+    ```
 
-1. **Register** a user (`POST /api/auth/register`).
-2. **Login** (`POST /api/auth/login`) and **copy the JWT token** from the response.
-3. For all `/api/tasks/*` requests, navigate to the **Authorization** tab in Postman.
-4. Select **Bearer Token** from the dropdown menu.
-5. Paste your token into the field.
-6. When updating or deleting, use the `_id` retrieved from the `GET /api/tasks/` response.
+How to Test with Postman
+------------------------
 
----
+1. Open Postman.
+2. Use the Register link to create a user.
+3. Use the Log in link to log in. Copy the token from the response.
+4. Open a new request for tasks (like Create or View).
+5. Go to the Authorization tab, select Bearer Token, and paste your token there.
+6. Click send!
 
-## 📁 Project Structure
+Author
+------
 
-```text
-TaskManager/
-├── controllers/       # Route logic (authController.js, taskControllers.js)
-├── middleware/        # Custom middleware (authMiddleware.js)
-├── models/            # Mongoose schemas (userModel.js, taskModel.js)
-├── routes/            # Express routes (authRoutes.js, taskRoutes.js)
-├── .env               # Environment variables
-├── index.js           # Entry point
-└── package.json       # Project metadata and dependencies
-```
-
----
-
-## 👨‍💻 Author
-
-**Arun Pragas** (2022ICT90)
-
-[![GitHub](https://img.shields.io/badge/GitHub-ArunPragas2001-181717?style=for-the-badge&logo=github)](https://github.com/ArunPragas2001/TaskManager)
+Arun Pragas (2022ICT90)
