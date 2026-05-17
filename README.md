@@ -97,6 +97,7 @@ Ensure you have the following installed on your local machine:
 
 ### 📝 Tasks
 
+<<<<<<< HEAD
 | Method | Endpoint | Description | Requires Auth |
 | :--- | :--- | :--- | :---: |
 | `POST` | `/api/tasks/create` | Create a new task | ✅ |
@@ -113,6 +114,23 @@ Ensure you have the following installed on your local machine:
   "priority": "High"
 }
 ```
+=======
+4. Delete Task
+ Method: DELETE
+ Endpoint: /api/tasks/:id
+------------------------------------------------------------------------
+
+5. Register user
+ Method: POST
+ Endpoint: /api/auth/register
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "123456",
+  "createdAt": "2026-05-17T10:30:00.000Z"
+}
+>>>>>>> 6bab906e21969833e988a697496cdbf56ec41527
 
 ---
 
