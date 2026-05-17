@@ -2,7 +2,7 @@ const API_URL = '/api/tasks';
 let tasks = [];
 const notifiedTaskIds = new Set();
 
-// Get Auth Token
+
 function getAuthHeaders() {
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user || !user.token) {
@@ -15,13 +15,13 @@ function getAuthHeaders() {
     };
 }
 
-// Fetch Tasks
+
 async function fetchTasks() {
     try {
         const response = await fetch(API_URL, {
             headers: getAuthHeaders()
         });
-        
+
         if (response.status === 401) {
             localStorage.removeItem('user');
             window.location.href = '/login.html';
@@ -30,6 +30,11 @@ async function fetchTasks() {
 
         if (!response.ok) throw new Error('Failed to fetch tasks');
         tasks = await response.json();
+
+        // Sort tasks by priority
+        const priorityMap = { 'High': 0, 'Medium': 1, 'Low': 2 };
+        tasks.sort((a, b) => priorityMap[a.priority || 'Medium'] - priorityMap[b.priority || 'Medium']);
+
         renderTasks();
         updateAnalytics();
         checkDeadlines();
@@ -43,13 +48,13 @@ async function fetchTasks() {
 function getRemainingTime(deadline) {
     const now = new Date();
     const diff = new Date(deadline) - now;
-    
+
     if (diff <= 0) return '<span style="color: var(--error);">Overdue</span>';
-    
+
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    
+
     if (days > 0) return `${days}d ${hours}h left`;
     if (hours > 0) return `${hours}h ${minutes}m left`;
     return `${minutes}m left`;
@@ -63,7 +68,7 @@ function renderTasks() {
         'Completed': document.getElementById('list-completed')
     };
     Object.values(lists).forEach(list => list.innerHTML = '');
-    
+
     tasks.forEach(task => {
         const status = task.status || 'Pending';
         const listContainer = lists[status];
@@ -75,7 +80,7 @@ function renderTasks() {
         const year = deadlineDate.getFullYear();
         const hours = String(deadlineDate.getHours()).padStart(2, '0');
         const minutes = String(deadlineDate.getMinutes()).padStart(2, '0');
-        
+
         const formattedDate = `${day}/${month}/${year} • ${hours}:${minutes}`;
         const timeRemaining = getRemainingTime(task.deadline);
 
@@ -85,10 +90,15 @@ function renderTasks() {
         const isUrgent = diffMs > 0 && diffMs < (24 * 60 * 60 * 1000) && task.status !== 'Completed';
         const isOverdue = diffMs < 0 && task.status !== 'Completed';
 
+        const priority = task.priority || 'Medium';
+
         const card = document.createElement('div');
         card.className = `task-card ${isUrgent || isOverdue ? 'urgent' : ''}`;
         card.innerHTML = `
-            <div class="task-card-title">${escapeHTML(task.title)}</div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+                <div class="task-card-title" style="margin: 0;">${escapeHTML(task.title)}</div>
+                <span class="priority-badge priority-${priority.toLowerCase()}">${priority}</span>
+            </div>
             <div class="task-card-meta">
                 <div class="deadline-tag ${isUrgent || isOverdue ? 'urgent' : ''}">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
@@ -140,6 +150,7 @@ taskForm.addEventListener('submit', async (e) => {
     const title = document.getElementById('title').value;
     const deadline = document.getElementById('deadline').value;
     const status = document.getElementById('status').value;
+    const priority = document.getElementById('priority').value;
     const editId = taskForm.dataset.editId;
 
     try {
@@ -150,7 +161,7 @@ taskForm.addEventListener('submit', async (e) => {
         response = await fetch(url, {
             method: method,
             headers: getAuthHeaders(),
-            body: JSON.stringify({ title, deadline, status })
+            body: JSON.stringify({ title, deadline, status, priority })
         });
 
         if (!response.ok) throw new Error('Failed to save');
@@ -162,28 +173,29 @@ taskForm.addEventListener('submit', async (e) => {
     }
 });
 
-window.resetForm = function() {
+window.resetForm = function () {
     taskForm.reset();
     taskForm.dataset.editId = '';
     document.getElementById('form-title').innerText = 'Add New Task';
     document.getElementById('submit-btn-text').innerText = 'Add Task';
 }
 
-window.editTask = function(id) {
+window.editTask = function (id) {
     const task = tasks.find(t => t._id === id);
     if (!task) return;
     document.getElementById('title').value = task.title;
     const dt = new Date(task.deadline);
-    const localDateTime = new Date(dt.getTime() - dt.getTimezoneOffset() * 60000).toISOString().slice(0,16);
+    const localDateTime = new Date(dt.getTime() - dt.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
     document.getElementById('deadline').value = localDateTime;
     document.getElementById('status').value = task.status || 'Pending';
+    document.getElementById('priority').value = task.priority || 'Medium';
     taskForm.dataset.editId = task._id;
     document.getElementById('form-title').innerText = 'Edit Task';
     document.getElementById('submit-btn-text').innerText = 'Save Changes';
     document.getElementById('task-modal').style.display = 'flex';
 };
 
-window.updateTaskStatus = async function(id, newStatus) {
+window.updateTaskStatus = async function (id, newStatus) {
     try {
         const response = await fetch(`${API_URL}/${id}`, {
             method: 'PUT',
@@ -197,10 +209,10 @@ window.updateTaskStatus = async function(id, newStatus) {
     }
 }
 
-window.deleteTask = async function(id) {
+window.deleteTask = async function (id) {
     if (!confirm('Are you sure you want to delete this task?')) return;
     try {
-        const response = await fetch(`${API_URL}/${id}`, { 
+        const response = await fetch(`${API_URL}/${id}`, {
             method: 'DELETE',
             headers: getAuthHeaders()
         });

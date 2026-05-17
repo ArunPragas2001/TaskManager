@@ -1,138 +1,151 @@
-Task Manager API
+<div align="center">
+  
+# 🚀 Task Manager API
 
-Project Overview
+**A secure, robust RESTful API for managing personal tasks — built with Node.js, Express.js, and MongoDB.**
 
-The Task Manager API is a backend application developed to help users
-manage their daily tasks in an organized and efficient way. This system
-allows users to create, view, update, and delete tasks easily through
-REST API endpoints.
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+[![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)](https://jwt.io/)
 
-The project is built using Node.js, Express.js, and MongoDB, following
-the CRUD (Create, Read, Update, Delete) concept commonly used in modern
-web development.
+</div>
 
-------------------------------------------------------------------------
+---
 
-Problem Description
+## 📌 Overview
 
-Managing tasks manually can often become confusing and time-consuming.
-People may forget important deadlines, lose track of pending work, or
-struggle to organize multiple activities properly.
+The **Task Manager API** is a backend application that enables users to manage their daily tasks efficiently through secure REST API endpoints. Users can register, authenticate, and perform full **CRUD** (Create, Read, Update, Delete) operations on their tasks. It features deadline tracking, priority levels, and status updates, all protected by secure JWT authentication.
 
-------------------------------------------------------------------------
+---
 
-Proposed Solution
+## ✨ Key Features
 
-This Task Manager API provides a simple digital solution for managing
-tasks effectively. Users can store task details such as title, deadline,
-and status in a database and perform different operations like adding,
-updating, viewing, and deleting tasks whenever needed.
+- **🔐 Secure Authentication:** User registration and login utilizing JSON Web Tokens (JWT).
+- **📋 Comprehensive Task Management:** Create, view, update, and delete tasks.
+- **🏷️ Smart Categorization:** Assign priorities (`High`, `Medium`, `Low`) and track status (`pending`, `completed`).
+- **⏳ Deadline Tracking:** Set precise deadlines to never miss an important task.
+- **🛡️ Data Integrity:** Strict input validation and robust error handling.
 
-------------------------------------------------------------------------
+---
 
-Features
+## 🛠️ Technology Stack
 
--   Create new tasks
--   View all saved tasks
--   Update task information
--   Delete tasks
--   Store deadlines for tasks
--   Manage task status (pending/completed)
--   RESTful API architecture
--   MongoDB database integration
--   Error handling and validation
+- **Runtime:** Node.js
+- **Framework:** Express.js
+- **Database:** MongoDB
+- **ODM:** Mongoose
+- **Security:** JSON Web Token (JWT)
 
-------------------------------------------------------------------------
+---
 
-Technologies Used
+## 🚀 Getting Started
 
--   Node.js
--   Express.js
--   MongoDB
--   Mongoose
--   dotenv
--   Postman
+Follow these steps to set up the project locally.
 
-------------------------------------------------------------------------
+### Prerequisites
 
-API Endpoints
+Ensure you have the following installed on your local machine:
+- [Node.js](https://nodejs.org/)
+- [MongoDB](https://www.mongodb.com/) (Local instance or MongoDB Atlas cluster)
 
-1. Create Task
+### Installation
 
-Method: POST
-Endpoint: /api/tasks/create
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/ArunPragas2001/TaskManager.git
+   cd TaskManager
+   ```
 
-Example Request: { “title”: “Finish assignment”, “deadline”:
-“2026-05-10”, “status”: “pending” }
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-------------------------------------------------------------------------
+3. **Configure environment variables:**
+   Create a `.env` file in the root directory and add the following:
+   ```env
+   PORT=8000
+   MONGO_URL=your_mongodb_connection_string
+   JWT_SECRET=your_super_secret_jwt_key
+   ```
 
-2. Get All Tasks
+4. **Start the server:**
+   ```bash
+   npm start
+   ```
+   > 🌐 **Server runs at:** `http://localhost:8000`
 
-Method: GET
-Endpoint: /api/tasks/
+---
 
-------------------------------------------------------------------------
+## 🔗 API Reference
 
-3. Update Task
+### 🔑 Authentication
 
-Method: PUT
-Endpoint: /api/tasks/:id
+| Method | Endpoint | Description | Requires Auth |
+| :--- | :--- | :--- | :---: |
+| `POST` | `/api/auth/register` | Register a new user | ❌ |
+| `POST` | `/api/auth/login` | Login user & get JWT token | ❌ |
 
-Example Request: { “status”: “completed” }
+**Login Example (Response):**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5c..."
+}
+```
+> *Save this token! You will need to pass it in the `Authorization` header as a `Bearer Token` for all task-related endpoints.*
 
-------------------------------------------------------------------------
+### 📝 Tasks
 
-4. Delete Task
+| Method | Endpoint | Description | Requires Auth |
+| :--- | :--- | :--- | :---: |
+| `POST` | `/api/tasks/create` | Create a new task | ✅ |
+| `GET`  | `/api/tasks/` | Retrieve all tasks for the logged-in user | ✅ |
+| `PUT`  | `/api/tasks/:id` | Update a specific task | ✅ |
+| `DELETE`| `/api/tasks/:id` | Delete a specific task | ✅ |
 
-Method: DELETE
-Endpoint: /api/tasks/:id
+**Task Object Example:**
+```json
+{
+  "title": "Complete backend integration",
+  "deadline": "2026-05-20",
+  "status": "pending",
+  "priority": "High"
+}
+```
 
-------------------------------------------------------------------------
+---
 
-Setup Instructions
+## 🧪 Testing with Postman
 
-Step 1: Clone the Repository
+To successfully test the API, follow this workflow:
 
-git clone
+1. **Register** a user (`POST /api/auth/register`).
+2. **Login** (`POST /api/auth/login`) and **copy the JWT token** from the response.
+3. For all `/api/tasks/*` requests, navigate to the **Authorization** tab in Postman.
+4. Select **Bearer Token** from the dropdown menu.
+5. Paste your token into the field.
+6. When updating or deleting, use the `_id` retrieved from the `GET /api/tasks/` response.
 
-Step 2: Navigate to the Project Folder
+---
 
-cd task-manager
+## 📁 Project Structure
 
-Step 3: Install Required Dependencies
+```text
+TaskManager/
+├── controllers/       # Route logic (authController.js, taskControllers.js)
+├── middleware/        # Custom middleware (authMiddleware.js)
+├── models/            # Mongoose schemas (userModel.js, taskModel.js)
+├── routes/            # Express routes (authRoutes.js, taskRoutes.js)
+├── .env               # Environment variables
+├── index.js           # Entry point
+└── package.json       # Project metadata and dependencies
+```
 
-npm install
+---
 
-Step 4: Create Environment Variables
+## 👨‍💻 Author
 
-Create a .env file in the root directory and add the following:
+**Arun Pragas** (2022ICT90)
 
-PORT=8000 MONGO_URL=your_mongodb_connection_string
-
-------------------------------------------------------------------------
-
-How to Run the Project
-
-Start the server using:
-
-npm start
-
-The server will run on: http://localhost:8000
-
-------------------------------------------------------------------------
-
-Conclusion
-
-This project demonstrates the implementation of a RESTful API using
-Node.js, Express.js, and MongoDB. It provides a practical solution for
-managing tasks efficiently while also helping developers understand
-backend development concepts such as routing, database operations, and
-API handling.
-
-------------------------------------------------------------------------
-
-Author
-
-Arun Pragas(2022ICT90)
-git clone https://github.com/ArunPragas2001/TaskManager.git
+[![GitHub](https://img.shields.io/badge/GitHub-ArunPragas2001-181717?style=for-the-badge&logo=github)](https://github.com/ArunPragas2001/TaskManager)

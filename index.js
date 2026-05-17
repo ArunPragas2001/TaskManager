@@ -16,7 +16,6 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// Disable caching for development
 app.use((req, res, next) => {
     res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
     next();
@@ -30,7 +29,6 @@ app.use(express.static(path.join(__dirname, "public"), {
 app.use("/api/tasks", taskRoutes);
 app.use("/api/auth", authRoutes);
 
-// Connect DB then start server
 connectDB()
     .then(() => {
         console.log("MongoDB Connected");

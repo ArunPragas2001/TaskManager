@@ -17,6 +17,11 @@ const taskSchema = new mongoose.Schema({
     status: {
         type: String,
         required: true
+    },
+    priority: {
+        type: String,
+        enum: ['High', 'Medium', 'Low'],
+        default: 'Medium'
     }
 }, {
     timestamps: true
