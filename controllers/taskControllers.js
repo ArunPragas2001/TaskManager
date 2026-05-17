@@ -30,7 +30,7 @@ export const updateTask = async (req, res) => {
             return res.status(404).json({ message: "Task not found or not authorized" });
         }
 
-        const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, { returnDocument: 'after', runValidators: true });
         res.json(updatedTask);
     } catch (error) {
         res.status(400).json({ message: error.message });
