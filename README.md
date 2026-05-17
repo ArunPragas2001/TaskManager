@@ -87,6 +87,14 @@ Example Request: { “status”: “completed” }
 
 Method: DELETE
 Endpoint: /api/tasks/:id
+------------------------------------------------------------------------
+5. Register user
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "123456",
+  "createdAt": "2026-05-17T10:30:00.000Z"
+}
 
 ------------------------------------------------------------------------
 
